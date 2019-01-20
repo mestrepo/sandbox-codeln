@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'projects',
     'frontend',
     'classroom',
+    'marketplace',
     'django.contrib.admindocs',
 
 
