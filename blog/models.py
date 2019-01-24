@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth.models import User
 
@@ -8,6 +9,7 @@ class PublishedManager(models.Manager):
     custom model manager for Post model.
     retrieves all posts with published status.
     """
+
     def get_queryset(self):
         return super(PublishedManager, self).get_queryset().filter(status='published')
 
@@ -54,3 +56,15 @@ class Post(models.Model):
     # used in many places such as the administration site
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        """build the canonical URL for Post objects"""
+        return reverse(
+            'blog:post_detail',
+            args=[
+                self.publish.year,
+                self.publish.strftime('%m'),
+                self.publish.strftime('%d'),
+                self.slug
+            ]
+        )
