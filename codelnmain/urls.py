@@ -36,6 +36,7 @@ urlpatterns = [
     path('', include('classroom.urls')),
     path('invitations/', include('invitations.urls', namespace='invitations')),
     path('testing/', include('testing.urls', namespace='testing')),
+    path('blog/', include('blog.urls', namespace='blog'))
 ]
 
 if settings.DEBUG:
