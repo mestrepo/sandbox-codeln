@@ -1,6 +1,16 @@
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.views.generic import ListView
+
 from .models import Post
+
+
+class PostListView(ListView):
+    """a class-based view to display the list of posts."""
+    queryset = Post.published.all()  # object list
+    context_object_name = 'posts'  # context variable for query results, defaults to object_list
+    paginate_by = 1  # number of posts per page
+    template_name = 'blog/post/list.html'  # rendering template
 
 
 def post_list(request):
