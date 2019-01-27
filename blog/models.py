@@ -68,3 +68,32 @@ class Post(models.Model):
                 self.slug
             ]
         )
+
+
+class Comment(models.Model):
+    # associate comment with a particular post
+    post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE)
+
+    # person commenting
+    name = models.CharField(max_length=80)
+
+    # person's email
+    email = models.EmailField()
+
+    # actual comment message
+    body = models.TextField()
+
+    # when comment was made
+    created = models.DateTimeField(auto_now_add=True)
+
+    # when comment was updated
+    updated = models.DateTimeField(auto_now=True)
+
+    # used to manually deactivate inappropriate comments on a post
+    active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ('created',)
+
+    def __str__(self):
+        return 'Comment by {} on {}'.format(self.name, self.post)
