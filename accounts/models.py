@@ -15,9 +15,16 @@ class RecruiterManager(models.Manager):
         return super(RecruiterManager, self).get_queryset().filter(user_type='recruiter')
 
 
+class DeveloperManager(models.Manager):
+    """custom model manager to retrieve all profiles of developers"""
+    def get_queryset(self):
+        return super(DeveloperManager, self).get_queryset().filter(user_type='developer')
+
+
 class Profile(models.Model):
     objects = models.Manager()  # The default manager.
     recruiters = RecruiterManager()  # Our recruiter manager.
+    developers = DeveloperManager()  # Our developer manager.
 
     USER_TYPE_CHOICES = (
         ('recruiter', 'RECRUITER'),
