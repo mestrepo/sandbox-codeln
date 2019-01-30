@@ -9,7 +9,16 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 
+class RecruiterManager(models.Manager):
+    """custom model manager to retrieve all profiles of recruiters"""
+    def get_queryset(self):
+        return super(RecruiterManager, self).get_queryset().filter(user_type='recruiter')
+
+
 class Profile(models.Model):
+    objects = models.Manager()  # The default manager.
+    recruiters = RecruiterManager()  # Our recruiter manager.
+
     USER_TYPE_CHOICES = (
         ('recruiter', 'RECRUITER'),
         ('developer', 'DEVELOPER'),
