@@ -81,7 +81,6 @@ class Recruiter(Base):
 
 
 class JobDetails(models.Model):
-
     ENGAGEMENT_TYPE = (
         ('full_time', 'Full-time'),
         ('part_time', 'Part-time'),
@@ -127,16 +126,12 @@ class JobDetails(models.Model):
 
 
 class Job(models.Model):
-
-    def is_filled(self):
-        return self.job_details.num_devs_wanted == self.selected_devs.count()
-
     job_details = models.OneToOneField(JobDetails, on_delete=models.CASCADE)
     posted_by = models.ForeignKey(Recruiter, related_name='posted_jobs', on_delete=models.CASCADE)
     applied_by = models.ManyToManyField(Developer, related_name='applied_jobs')
     recommended_devs = models.ManyToManyField(Developer, related_name='recommended_jobs')
     selected_devs = models.ManyToManyField(Developer, related_name='jobs_picked_for')
-    position_filled = models.BooleanField(default=property(is_filled))
+    position_filled = models.BooleanField(default=False)
 
     class Meta:
         ordering = ('position_filled',)
