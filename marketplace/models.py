@@ -126,7 +126,7 @@ class JobDetail(models.Model):
 
 
 class Job(models.Model):
-    job_details = models.OneToOneField(JobDetail, on_delete=models.CASCADE)
+    job_detail = models.OneToOneField(JobDetail, on_delete=models.CASCADE)
     posted_by = models.ForeignKey(Recruiter, related_name='posted_jobs', on_delete=models.CASCADE)
     applied_by = models.ManyToManyField(Developer, related_name='applied_jobs')
     recommended_devs = models.ManyToManyField(Developer, related_name='recommended_jobs')
@@ -137,4 +137,4 @@ class Job(models.Model):
         ordering = ('position_filled',)
 
     def __str__(self):
-        return self.job_details
+        return self.job_detail
