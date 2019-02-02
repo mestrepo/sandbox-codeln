@@ -80,7 +80,7 @@ class Recruiter(Base):
     company_url = models.CharField(max_length=500, null=True, blank=True)
 
 
-class JobDetails(models.Model):
+class JobDetail(models.Model):
     ENGAGEMENT_TYPE = (
         ('full_time', 'Full-time'),
         ('part_time', 'Part-time'),
@@ -126,7 +126,7 @@ class JobDetails(models.Model):
 
 
 class Job(models.Model):
-    job_details = models.OneToOneField(JobDetails, on_delete=models.CASCADE)
+    job_details = models.OneToOneField(JobDetail, on_delete=models.CASCADE)
     posted_by = models.ForeignKey(Recruiter, related_name='posted_jobs', on_delete=models.CASCADE)
     applied_by = models.ManyToManyField(Developer, related_name='applied_jobs')
     recommended_devs = models.ManyToManyField(Developer, related_name='recommended_jobs')
