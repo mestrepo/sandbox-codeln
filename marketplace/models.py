@@ -1,54 +1,30 @@
 from django.conf import settings
-from django.contrib.auth.models import User
 from django.db import models
 from django_countries.fields import CountryField
 
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 
-
-class Base(models.Model):
+class Person(models.Model):
     GENDER_CHOICES = (
         ('male', 'male'),
         ('female', 'female'),
     )
 
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    auth_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     profile_photo = models.ImageField(upload_to='users/%Y/%m/%d', blank=True, null=True)
     date_of_birth = models.DateTimeField(null=True, blank=True)
     gender = models.CharField(choices=GENDER_CHOICES, null=True, blank=True, max_length=30)
     phone_number = models.CharField(null=True, max_length=30)
-
-    def __str__(self):
-        return self.user.username
 
     def photo(self, default_path="default_user_photo.png"):
         if self.profile_photo:
             return self.profile_photo
         return default_path
 
-    def get_absolute_url(self):
-        return '/marketplace/base/'
-
-    @property
-    def full_name(self):
-        return self.user.get_full_name()
-
-    @property
-    def date_joined(self):
-        return self.user.date_joined
-
-    @receiver(post_save, sender=User)
-    def create_user_profile(sender, instance, created, **kwargs):
-        if created:
-            Base.objects.create(user=instance)
-
-    @receiver(post_save, sender=User)
-    def save_user_profile(sender, instance, **kwargs):
-        instance.base.save()
+    def __str__(self):
+        return self.auth_user.username
 
 
-class Developer(Base):
+class Developer(Person):
     YEARS_ACTIVE_CHOICES = (
         ('1-2', '1-2'),
         ('2-4', '2-4'),
@@ -73,7 +49,7 @@ class Developer(Base):
     availability = models.CharField(choices=CONTRACT_CHOICES, null=True, max_length=30)
 
 
-class Recruiter(Base):
+class Recruiter(Person):
     company = models.CharField(max_length=140, null=True, blank=True)
     job_role = models.CharField(max_length=140, null=True, blank=True)
     industry = models.CharField(max_length=80, null=True, blank=True)
@@ -119,6 +95,12 @@ class Job(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        ordering = ('created',)
+
+    def __str__(self):
+        return self.title
+
 
 class JobStatistic(models.Model):
     job = models.ForeignKey(Job, related_name='job_statistics', on_delete=models.CASCADE)
@@ -131,4 +113,4 @@ class JobStatistic(models.Model):
         ordering = ('position_filled',)
 
     def __str__(self):
-        return self.job
+        return self.job.title
