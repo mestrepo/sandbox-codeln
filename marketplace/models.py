@@ -80,7 +80,7 @@ class Recruiter(Base):
     company_url = models.CharField(max_length=500, null=True, blank=True)
 
 
-class JobDetail(models.Model):
+class Job(models.Model):
     ENGAGEMENT_TYPE = (
         ('full_time', 'Full-time'),
         ('part_time', 'Part-time'),
@@ -106,6 +106,7 @@ class JobDetail(models.Model):
         ('senior', 'Senior'),
     )
 
+    posted_by = models.ForeignKey(Recruiter, related_name='posted_jobs', on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     description = models.TextField()
     job_role = models.CharField(max_length=30, choices=JOB_ROLE, default='full_stack_developer')
@@ -114,20 +115,13 @@ class JobDetail(models.Model):
     tech_stack = models.CharField(max_length=500)
     num_devs_wanted = models.IntegerField(default=1)
     # monthly remuneration for fulltime, contract etc. budget project for freelance
-    remuneration_dollars = models.CharField(max_length=45)
+    remuneration_in_dollars = models.CharField(max_length=45, help_text='in dollars ($)')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
-    class Meta:
-        ordering = ('created',)
 
-    def __str__(self):
-        return self.title
-
-
-class Job(models.Model):
-    job_detail = models.OneToOneField(JobDetail, on_delete=models.CASCADE)
-    posted_by = models.ForeignKey(Recruiter, related_name='posted_jobs', on_delete=models.CASCADE)
+class JobStatistic(models.Model):
+    job = models.ForeignKey(Job, related_name='job_statistics', on_delete=models.CASCADE)
     applied_by = models.ManyToManyField(Developer, related_name='applied_jobs')
     recommended_devs = models.ManyToManyField(Developer, related_name='recommended_jobs')
     selected_devs = models.ManyToManyField(Developer, related_name='jobs_picked_for')
@@ -137,4 +131,4 @@ class Job(models.Model):
         ordering = ('position_filled',)
 
     def __str__(self):
-        return self.job_detail
+        return self.job
