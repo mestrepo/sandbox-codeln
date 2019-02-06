@@ -1,0 +1,20 @@
+{% extends "marketplace/developer/developer.html" %}
+
+{% block title %}Codeln|Jobs{% endblock %}
+
+{% block content %}
+    <h1>Jobs</h1>
+    {% for job in jobs %}
+        <h2>
+            <a href="{{ job.get_absolute_url }}">
+                {{ job.title }}
+            </a>
+        </h2>
+        <p class="date">
+            Published {{ job.created }} by {{ job.posted_by }}
+        </p>
+        {{ job.description|truncatewords:30|linebreaks }}
+    {% endfor %}
+
+{#    {% include "blog/pagination.html" with page=page_obj %}#}
+{% endblock %}
