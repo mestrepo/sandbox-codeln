@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.urls import reverse
 from django_countries.fields import CountryField
 
 
@@ -84,6 +85,9 @@ class Job(models.Model):
 
     posted_by = models.ForeignKey(Recruiter, related_name='posted_jobs', on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
+    # field to build beautiful, SEO-friendly URLs for job posts
+    # prevent multiple jobs from having the same slug for the same date
+    slug = models.SlugField(max_length=250, unique_for_date='created')
     description = models.TextField()
     job_role = models.CharField(max_length=30, choices=JOB_ROLE, default='full_stack_developer')
     dev_experience = models.CharField(max_length=30, choices=DEV_EXPERIENCE, default='mid-level')
@@ -94,6 +98,7 @@ class Job(models.Model):
     remuneration_in_dollars = models.CharField(max_length=45, help_text='in dollars ($)')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    position_filled = models.BooleanField(default=False)
 
     class Meta:
         ordering = ('created',)
@@ -101,16 +106,28 @@ class Job(models.Model):
     def __str__(self):
         return self.title
 
+    def get_absolute_url(self):
+        """build the canonical URL for Job objects"""
+        return reverse(
+            'marketplace:job_detail',
+            args=[
+                self.created.year,
+                self.created.strftime('%m'),
+                self.created.strftime('%d'),
+                self.slug
+            ]
+        )
+
 
 class JobStatistic(models.Model):
     job = models.ForeignKey(Job, related_name='job_statistics', on_delete=models.CASCADE)
     applied_by = models.ManyToManyField(Developer, related_name='applied_jobs')
     recommended_devs = models.ManyToManyField(Developer, related_name='recommended_jobs')
     selected_devs = models.ManyToManyField(Developer, related_name='jobs_picked_for')
-    position_filled = models.BooleanField(default=False)
 
     class Meta:
-        ordering = ('position_filled',)
+        # ordering = ('position_filled',)
+        pass
 
     def __str__(self):
         return self.job.title

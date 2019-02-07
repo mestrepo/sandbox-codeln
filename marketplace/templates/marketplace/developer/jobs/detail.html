@@ -83,40 +83,52 @@
         </div>
 
 
-        <a id="devs" href="{% url 'marketplace:job_list' %}"><span data-feather="rotate-cw"></span> Refresh list</a>
-        <table class="table">
-            <thead class="thead-dark">
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Company</th>
-                                <th scope="col">Job Title</th>
-                <th scope="col">Job Role</th>
-                <th scope="col">Developer Experience</th>
-                <th scope="col">Engagement Type</th>
-                <th scope="col">Tech Stack</th>
-                <th scope="col">Remuneration In Dollars</th>
-                <th scope="col">Job Details</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for job in jobs %}
-                <tr>
-                    <td> {{ forloop.counter }} </td>
-                    <td><a href="{{ job.posted_by.company_url }}" target="_blank">{{ job.posted_by.company }}</a></td>
-                    <td>{{ job.title }}</td>
-                    <td>{{ job.job_role }}</td>
-                    <td>{{ job.dev_experience }}</td>
-                    <td>{{ job.engagement_type }}</td>
-                    <td>{{ job.tech_stack }}</td>
-                    <td>{{ job.remuneration_in_dollars }}</td>
-                    <td><a href="{{ job.get_absolute_url }}">view details</a></td>
-                </tr>
+        <h1 style="color: #0580c9">{{ job.title }}</h1>
 
-            {% endfor %}
+        <p class="date">
+            Job Posted {{ job.created }} by <span
+                style="color: #c69500">{{ job.posted_by }} ({{ job.posted_by.job_role }})</span> of <span
+                style="color: #c91452"><a href="{{ job.posted_by.company_url }}"
+                                          target="_blank" >{{ job.posted_by.company }}</a></span>
+        </p>
+
+        <h3 style="color: #0580c9">Job Description</h3>
+        {{ job.description|linebreaks }}
 
 
-            </tbody>
-        </table>
+        <h6 style="text-decoration: underline; color: #0580c9;">Job Role</h6>
+        <h6 style="color: #c91452">
+            <td>{{ job.job_role }}</td>
+        </h6>
+
+        <h6 style="text-decoration: underline; color: #0580c9;">Developer Experience</h6>
+        <h6 style="color: #c91452">
+            <td>{{ job.dev_experience }}</td>
+        </h6>
+
+        <h6 style="text-decoration: underline; color: #0580c9;">Engagement Type</h6>
+        <h6 style="color: #c91452">
+            <td>{{ job.engagement_type }}</td>
+        </h6>
+
+        <h6 style="text-decoration: underline; color: #0580c9;">Tech Stack</h6>
+        <h6 style="color: #c91452">
+            <td>{{ job.tech_stack }}</td>
+        </h6>
+
+        <h6 style="text-decoration: underline; color: #0580c9;">Remuneration In Dollars</h6>
+        <h6 style="color: #c91452">
+            <td>{{ job.remuneration_in_dollars }}</td>
+        </h6>
+
+        <p class="text-center mt-4">
+            <button type="button" onclick="" value=""
+                    class="btn theme--dark primary " style="border-radius: 0;margin: auto">
+                <div class="btn__content" href="">
+                    Apply For This Job!
+                </div>
+            </button>
+        </p>
 
 
     </main>
