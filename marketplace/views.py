@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+# from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import ListView
 
 from .models import Job
@@ -11,15 +11,15 @@ def dev_home(request):
 
 
 class JobListView(ListView):
-    """a class-based view to display the list of posts."""
+    """a class-based view to display the list of jobs."""
     queryset = Job.objects.all()  # object list
     context_object_name = 'jobs'  # context variable for query results, defaults to object_list
-    # paginate_by = 1  # number of posts per page
+    # paginate_by = 1  # number of jobs per page
     template_name = 'marketplace/developer/jobs/list.html'  # rendering template
 
 
 def job_detail(request, year, month, day, job):
-    """a view to display details of a single post."""
+    """a view to display details of a single job."""
     job = get_object_or_404(
         Job,
         slug=job,
