@@ -6,8 +6,8 @@ from django_countries.fields import CountryField
 
 class Person(models.Model):
     GENDER_CHOICES = (
-        ('male', 'male'),
-        ('female', 'female'),
+        ('Male', 'Male'),
+        ('Female', 'Female'),
     )
 
     auth_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -33,11 +33,11 @@ class Developer(Person):
     )
 
     CONTRACT_CHOICES = (
-        ('full_time', 'Full-time'),
-        ('part_time', 'Part-time'),
-        ('contract', 'Contract'),
-        ('remote', 'Remote'),
-        ('freelance', 'Freelance'),
+        ('Full-time', 'Full-time'),
+        ('Part-time', 'Part-time'),
+        ('Contract', 'Contract'),
+        ('Remote', 'Remote'),
+        ('Freelance', 'Freelance'),
     )
 
     linkedin_url = models.CharField(max_length=500, null=True, )
@@ -59,28 +59,28 @@ class Recruiter(Person):
 
 class Job(models.Model):
     ENGAGEMENT_TYPE = (
-        ('full_time', 'Full-time'),
-        ('part_time', 'Part-time'),
-        ('contract', 'Contract'),
-        ('remote', 'Remote'),
-        ('freelance', 'Freelance'),
+        ('Full-time', 'Full-time'),
+        ('Part-time', 'Part-time'),
+        ('Contract', 'Contract'),
+        ('Remote', 'Remote'),
+        ('Freelance', 'Freelance'),
     )
 
     JOB_ROLE = (
-        ('full_stack_developer', 'Full Stack Developer'),
-        ('frontend_developer', 'Frontend Developer'),
+        ('Full Stack Developer', 'Full Stack Developer'),
+        ('Frontend Developer', 'Frontend Developer'),
         ('backend_developer', 'Backend  Developer'),
-        ('android_developer', 'Android  Developer'),
-        ('graphic_designer', 'Graphic Designer'),
-        ('ios_developer', 'IOS Developer'),
-        ('data_scientist', 'Data Scientist'),
+        ('Android  Developer', 'Android  Developer'),
+        ('Graphic Designer', 'Graphic Designer'),
+        ('IOS Developer', 'IOS Developer'),
+        ('Data Scientist', 'Data Scientist'),
     )
 
     DEV_EXPERIENCE = (
-        ('entry', 'Entry'),
-        ('junior', 'Junior'),
-        ('mid-level', 'Mid-Level'),
-        ('senior', 'Senior'),
+        ('Entry', 'Entry'),
+        ('Junior', 'Junior'),
+        ('Mid-Level', 'Mid-Level'),
+        ('Senior', 'Senior'),
     )
 
     posted_by = models.ForeignKey(Recruiter, related_name='posted_jobs', on_delete=models.CASCADE)
