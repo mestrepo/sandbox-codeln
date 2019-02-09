@@ -114,7 +114,7 @@ class Job(models.Model):
                 self.created.year,
                 self.created.strftime('%m'),
                 self.created.strftime('%d'),
-                self.slug
+                self.slug,
             ]
         )
 

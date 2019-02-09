@@ -89,7 +89,7 @@
             Job Posted {{ job.created }} by <span
                 style="color: #c69500">{{ job.posted_by }} ({{ job.posted_by.job_role }})</span> of <span
                 style="color: #c91452"><a href="{{ job.posted_by.company_url }}"
-                                          target="_blank" >{{ job.posted_by.company }}</a></span>
+                                          target="_blank">{{ job.posted_by.company }}</a></span>
         </p>
 
         <h3 style="color: #0580c9">Job Description</h3>
@@ -121,14 +121,18 @@
             <td>{{ job.remuneration_in_dollars }}</td>
         </h6>
 
-        <p class="text-center mt-4">
-            <button type="button" onclick="" value=""
-                    class="btn theme--dark primary " style="border-radius: 0;margin: auto">
-                <div class="btn__content" href="">
-                    Apply For This Job!
-                </div>
-            </button>
-        </p>
+
+        <form action="{% url 'marketplace:apply_for_job' job.id %}" method="post" class="form">
+            {% csrf_token %}
+
+            <p class="text-center mt-4">
+                {% if job_applied_status %}
+                    <input class="btn theme--dark primary " style="border-radius: 0; margin: auto; color: white" type="submit" value="Great! You've Applied For This Job Already" disabled>
+                {% else %}
+                    <input class="btn theme--dark primary " style="border-radius: 0; margin: auto; color: white" type="submit" value="Apply For This Job!">
+                {% endif %}
+            </p>
+        </form>
 
 
     </main>

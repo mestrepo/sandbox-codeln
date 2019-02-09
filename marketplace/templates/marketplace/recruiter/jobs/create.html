@@ -1,17 +1,12 @@
-{% extends 'candidatesbase.html' %}
+{% extends 'recruiterbase.html' %}
 {% load bootstrap4 %}
-{% block title %}
-    developers
-{% endblock %}
 {% load static %}
 {% block content %}
-    <main role="main" class="col-md-12 col-lg-10 ml-lg-auto   px-4 ">
+    <main role="main" class="col-md-12 ml-lg-auto  col-lg-10 px-4 ">
         <div class="d-none d-lg-block">
             <nav class="navbar  navbar-light fixed-top fine border-bottom">
-                <h5>Home</h5>
+                <h5>Source for Developers</h5>
                 <ul class="nav ml-auto">
-
-
                     {% if request.user.is_authenticated %}
 
 
@@ -28,8 +23,6 @@
                             <a href="{% url 'account_signup' %}" style="color: black" class="nav-link">Register</a>
                         </li>
                     {% endif %}
-
-
                 </ul>
             </nav>
         </div>
@@ -37,7 +30,7 @@
         <!-----md devices adaptation------>
         <div class="container d-lg-none">
             <nav class=" navbar loginbar navbar-expand-md navbar-light fixed-top ">
-                <a class="logoadapt h5" style="text-decoration: none" href="/home">Home</a>
+                <h5 style="color: white">Source for Developers</h5>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -50,16 +43,18 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" style="color: white" href="#" id="navbarDropdown"
                                role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Sidebar menu options
+                                Menu
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{% url 'frontend:inprogress' user.id %}">Ongoing
-                                    Projects</a>
-                                <a class="dropdown-item" href="/update_profile/">My profile</a>
+                                <a class="dropdown-item" href="{% url 'frontend:my-activity' %}">Ongoing tests</a>
+                                <a class="dropdown-item" href="{% url 'projects:categories' %}">Create a test</a>
+                                <a class="dropdown-item" href="{% url 'transactions:sourcing' %}">Source candidates</a>
                             </div>
                         </li>
                         {% if request.user.is_authenticated %}
-
+                            <li class="nav-item">
+                                <a href="/home" style="color: white" class="nav-link">Home</a>
+                            </li>
                             <li class="nav-item">
                                 <a href="{% url 'account_logout' %}" style="color: white" class="nav-link">Logout</a>
                             </li>
@@ -75,58 +70,27 @@
                 </div>
             </nav>
         </div>
-        <div class="d-none d-lg-block" style="margin-top: 6%">
+
+        <div class="d-none d-lg-block" style="margin-top: 8%">
 
         </div>
-        <div class="d-lg-none" style="margin-top: 7em">
+
+        <div class="d-lg-none" style="margin-top: 5em">
 
         </div>
-
-
-        <a id="devs" href="{% url 'marketplace:job_list' %}"><span data-feather="rotate-cw"></span> Refresh list</a>
-        <table class="table">
-            <thead class="thead-dark">
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Company</th>
-                                <th scope="col">Job Title</th>
-                <th scope="col">Job Role</th>
-                <th scope="col">Developer Experience</th>
-                <th scope="col">Engagement Type</th>
-                <th scope="col">Tech Stack</th>
-                <th scope="col">Remuneration In Dollars</th>
-                <th scope="col">Application Status</th>
-                <th scope="col">Job Details</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for job in jobs %}
-                <tr>
-                    <td> {{ forloop.counter }} </td>
-                    <td><a href="{{ job.posted_by.company_url }}" target="_blank">{{ job.posted_by.company }}</a></td>
-                    <td>{{ job.title }}</td>
-                    <td>{{ job.job_role }}</td>
-                    <td>{{ job.dev_experience }}</td>
-                    <td>{{ job.engagement_type }}</td>
-                    <td>{{ job.tech_stack }}</td>
-                    <td>{{ job.remuneration_in_dollars }}</td>
-                    <td>
-                        {% if job in applied_jobs %}
-                            Applied
-                        {% else %}
-                            Not Applied
-                        {% endif %}
-                    </td>
-                    <td><a href="{{ job.get_absolute_url }}{% if job in applied_jobs %}?applied=True{% else %}?applied=False{% endif %}">view details</a></td>
-                </tr>
-
-            {% endfor %}
-
-
-            </tbody>
-        </table>
+        <div class="shadow-lg p-3 mb-5 bg-white ">
+            {% if new_job %}
+                <h2>Your job has been added!</h2>
+            {% else %}
+                <h2>Add a New Job</h2>
+                <form action="." method="post" class="form">
+                    {{ job_form.as_p }}
+                    {% csrf_token %}
+                    <p><input class="btn theme--dark primary " style="border-radius: 0; margin: auto; color: white" type="submit" value="Add Job"></p>
+                </form>
+            {% endif %}
+        </div>
 
 
     </main>
-
 {% endblock %}

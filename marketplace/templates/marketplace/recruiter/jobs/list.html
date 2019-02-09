@@ -95,7 +95,6 @@
                 <th scope="col">Engagement Type</th>
                 <th scope="col">Tech Stack</th>
                 <th scope="col">Remuneration In Dollars</th>
-                <th scope="col">Application Status</th>
                 <th scope="col">Job Details</th>
             </tr>
             </thead>
@@ -110,14 +109,7 @@
                     <td>{{ job.engagement_type }}</td>
                     <td>{{ job.tech_stack }}</td>
                     <td>{{ job.remuneration_in_dollars }}</td>
-                    <td>
-                        {% if job in applied_jobs %}
-                            Applied
-                        {% else %}
-                            Not Applied
-                        {% endif %}
-                    </td>
-                    <td><a href="{{ job.get_absolute_url }}{% if job in applied_jobs %}?applied=True{% else %}?applied=False{% endif %}">view details</a></td>
+                    <td><a href="{{ job.get_absolute_url }}">view details</a></td>
                 </tr>
 
             {% endfor %}
