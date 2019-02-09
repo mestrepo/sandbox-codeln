@@ -1,14 +1,24 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404, redirect
-# from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.views.generic import ListView
+from django.shortcuts import render, get_object_or_404
 
-from .models import Job, Recruiter, Developer, JobApplication
+from .models import Job, Recruiter, Developer, JobApplication, Person
 from .forms import JobForm
 
 
-def dev_home(request):
+def user_dashboard(request):
     """a view to show developer's home on marketplace."""
+    user_is_recruiter = False
+
+    user = Person.objects.get(auth_user__username=request.user)
+
+    try:
+        if isinstance(user.recruiter, Recruiter):
+            user_is_recruiter = True
+    except:
+        pass
+
+    if user_is_recruiter:
+        return render(request, 'marketplace/recruiter/home.html')
     return render(request, 'marketplace/developer/home.html')
 
 
@@ -39,11 +49,6 @@ def job_detail(request, year, month, day, job):
 
     return render(request, 'marketplace/developer/jobs/detail.html',
                   {'job': job, 'job_applied_status': applied})
-
-
-def recruiter_home(request):
-    """a view to show recruiter's home on marketplace."""
-    return render(request, 'marketplace/recruiter/home.html')
 
 
 def post_job(request):
