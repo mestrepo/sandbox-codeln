@@ -50,8 +50,6 @@ INSTALLED_APPS = [
     'marketplace',
     'django.contrib.admindocs',
 
-
-
     'paypal.standard.ipn',
     'transactions',
     'payments',
@@ -71,8 +69,6 @@ INSTALLED_APPS = [
     'django_forms_bootstrap',
     'django_countries',
     'phonenumber_field'
-
-
 
 ]
 
@@ -178,8 +174,8 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-#email settings
-DEFAULT_FROM_EMAIL=config('DEFAULT_FROM_EMAIL',default='DEFAULT_FROM_EMAIL')
+# email settings
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='DEFAULT_FROM_EMAIL')
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
@@ -241,7 +237,6 @@ INVITATIONS_ALLOW_JSON_INVITES = True
 INVITATIONS_ADAPTER = ACCOUNT_ADAPTER
 INVITATIONS_EMAIL_SUBJECT_PREFIX = 'Codeln'
 
-
 AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID', default='AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY', default='AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME', default='AWS_STORAGE_BUCKET_NAME')
@@ -262,3 +257,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 if ENVIRONMENT != 'local':
     pass
+
+# Activate Django-Heroku.
+django_heroku.settings(locals())
