@@ -117,12 +117,12 @@ WSGI_APPLICATION = 'codelnmain.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
-# DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.sqlite3',
-#        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#    }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -148,14 +148,6 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-# load environment variables from .env
-dotenv_file = os.path.join(BASE_DIR, ".env")
-if os.path.isfile(dotenv_file):
-    dotenv.load_dotenv(dotenv_file)
-
-# load database from the DATABASE_URL environment variable
-DATABASES = {}
-
 # Change 'default' database configuration with $DATABASE_URL.
 DATABASES['default'].update(dj_database_url.config(conn_max_age=500, ssl_require=True))
 
@@ -164,7 +156,7 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Allow all host headers
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=lambda v: [
-    s.strip() for s in v.split(',')], default='*')
+    s.strip() for s in v.split(',')], 'codeln-marketplace.herokuapp.com', default='*')
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
