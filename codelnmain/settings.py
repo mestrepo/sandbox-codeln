@@ -1,8 +1,10 @@
 """
 Django settings for codelnmain project on Heroku. For more info, see:
 https://github.com/heroku/heroku-django-template
+
 For more information on this file, see
 https://docs.djangoproject.com/en/2.0/topics/settings/
+
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
@@ -24,7 +26,7 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 SECRET_KEY = config('SECRET_KEY', default='SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ENVIRONMENT = config('ENVIRONMENT', default='local')
 
@@ -255,6 +257,3 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 if ENVIRONMENT != 'local':
     pass
-
-# Activate Django-Heroku.
-django_heroku.settings(locals())

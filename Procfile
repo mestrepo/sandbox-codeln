@@ -1,1 +1,1 @@
-web: gunicorn codelnmain.wsgi
+web: gunicorn codelnmain.wsgi --log-file -
