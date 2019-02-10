@@ -1,10 +1,8 @@
 """
 Django settings for codelnmain project on Heroku. For more info, see:
 https://github.com/heroku/heroku-django-template
-
 For more information on this file, see
 https://docs.djangoproject.com/en/2.0/topics/settings/
-
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
@@ -12,7 +10,6 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 import os
 from builtins import bool
 
-import dotenv
 import dj_database_url
 import django_heroku
 from decouple import config
@@ -156,7 +153,7 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Allow all host headers
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=lambda v: [
-    s.strip() for s in v.split(',')], 'codeln-marketplace.herokuapp.com', default='*')
+    s.strip() for s in v.split(',')], default='*')
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
@@ -260,4 +257,4 @@ if ENVIRONMENT != 'local':
     pass
 
 # Activate Django-Heroku.
-# django_heroku.settings(locals())
+django_heroku.settings(locals())
