@@ -89,7 +89,7 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Company</th>
-                                <th scope="col">Job Title</th>
+                <th scope="col">Job Title</th>
                 <th scope="col">Job Role</th>
                 <th scope="col">Developer Experience</th>
                 <th scope="col">Engagement Type</th>
@@ -117,7 +117,9 @@
                             Not Applied
                         {% endif %}
                     </td>
-                    <td><a href="{{ job.get_absolute_url }}{% if job in applied_jobs %}?applied=True{% else %}?applied=False{% endif %}">view details</a></td>
+                    <td><a href="
+                            {{ job.get_absolute_url_dev }}{% if job in applied_jobs %}?applied=True{% else %}?applied=False{% endif %}">view
+                        details</a></td>
                 </tr>
 
             {% endfor %}

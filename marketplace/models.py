@@ -106,10 +106,10 @@ class Job(models.Model):
     def __str__(self):
         return self.title
 
-    def get_absolute_url(self):
+    def get_absolute_url_dev(self):
         """build the canonical URL for Job objects"""
         return reverse(
-            'marketplace:job_detail',
+            'marketplace:dev_job_detail',
             args=[
                 self.created.year,
                 self.created.strftime('%m'),

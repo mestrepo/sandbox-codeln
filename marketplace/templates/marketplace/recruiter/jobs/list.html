@@ -1,7 +1,7 @@
-{% extends 'candidatesbase.html' %}
+{% extends 'recruiterbase.html' %}
 {% load bootstrap4 %}
 {% block title %}
-    developers
+    recruiter dashboard
 {% endblock %}
 {% load static %}
 {% block content %}
@@ -83,33 +83,33 @@
         </div>
 
 
-        <a id="devs" href="{% url 'marketplace:job_list' %}"><span data-feather="rotate-cw"></span> Refresh list</a>
+        <a id="devs" href="{% url 'marketplace:manage_posted_jobs' %}"><span data-feather="rotate-cw"></span> Refresh list</a>
         <table class="table">
             <thead class="thead-dark">
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Company</th>
-                                <th scope="col">Job Title</th>
+                <th scope="col">Job Title</th>
                 <th scope="col">Job Role</th>
                 <th scope="col">Developer Experience</th>
                 <th scope="col">Engagement Type</th>
                 <th scope="col">Tech Stack</th>
                 <th scope="col">Remuneration In Dollars</th>
-                <th scope="col">Job Details</th>
+                <th scope="col">Number of Candidates Applied</th>
+                <th scope="col">Job Management/Details</th>
             </tr>
             </thead>
             <tbody>
-            {% for job in jobs %}
+            {% for job_detail in job_details %}
                 <tr>
                     <td> {{ forloop.counter }} </td>
-                    <td><a href="{{ job.posted_by.company_url }}" target="_blank">{{ job.posted_by.company }}</a></td>
-                    <td>{{ job.title }}</td>
-                    <td>{{ job.job_role }}</td>
-                    <td>{{ job.dev_experience }}</td>
-                    <td>{{ job.engagement_type }}</td>
-                    <td>{{ job.tech_stack }}</td>
-                    <td>{{ job.remuneration_in_dollars }}</td>
-                    <td><a href="{{ job.get_absolute_url }}">view details</a></td>
+                    <td>{{ job_detail.0.title }}</td>
+                    <td>{{ job_detail.0.job_role }}</td>
+                    <td>{{ job_detail.0.dev_experience }}</td>
+                    <td>{{ job_detail.0.engagement_type }}</td>
+                    <td>{{ job_detail.0.tech_stack }}</td>
+                    <td>{{ job_detail.0.remuneration_in_dollars }}</td>
+                    <td>{{ job_detail.1|length}}</td>
+                    <td><a href="{% url 'marketplace:recruiter_job_detail' %}?job_id={{  job_detail.0.id }}&list_of_applicants={{  job_detail.1|join:"," }}">Manage Job</a></td>
                 </tr>
 
             {% endfor %}

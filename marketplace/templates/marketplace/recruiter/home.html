@@ -173,6 +173,52 @@
                     </a>
                 </div>
             </div>
+            {% if user_has_posted_jobs %}
+                <div class=" col-12 col-md-4 col-sm-6 col-lg-4 mb-5">
+                    <div class="card recruithomecard">
+                        <a href="{% url 'marketplace:manage_posted_jobs' %}">
+                            <div style="text-align: -webkit-center;">
+                                <img class="img-fluid" src="../../../static/frontend/images/search.svg"
+                                     style="width: 30%;margin-left: 33%;margin-right: 33%" alt="Card image cap">
+                            </div>
+                            <div class="card" style="border: 0 ">
+
+
+                                <div class="card-body">
+
+                                    <h6 class="card-title text-center" style="text-align: -webkit-center;">Manage Job
+                                        Applications</h6>
+
+                                </div>
+
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-12 col-md-4 col-sm-6 col-lg-4 mb-5">
+                    <div class="card recruithomecard grey">
+
+                        <div style="text-align: -webkit-center;">
+
+                            <img class="img-fluid" src="../../../static/frontend/images/search.svg"
+                                 style="width: 30%;margin-right: 33%;margin-left: 33%" alt="Card image cap">
+
+
+                        </div>
+                        <div class="card" style="border: 0 ">
+
+
+                            <div class="card-body">
+
+                                <h6 class="card-title text-center" style="text-align: -webkit-center;">No Job to Manage. Click Source candidates</h6>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
 
 
         </div>
