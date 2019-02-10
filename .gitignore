@@ -94,6 +94,7 @@ local_settings.py
 
 .env
 db.sqlite3
+venv/
 /frontend/templates/up.html
 /frontend/templates/trial.html
 /frontend/templates/bak.html
