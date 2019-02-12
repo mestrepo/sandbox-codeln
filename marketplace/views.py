@@ -54,18 +54,22 @@ def dev_job_detail(request, year, month, day, job):
                   {'job': job, 'job_applied_status': applied})
 
 
-def recruiter_job_detail(request):
+def recruiter_job_detail(request, job_id, list_of_applicants):
     """a view to display job_details of a single job."""
-    job = Job.objects.get(id=request.GET['job_id'])
+    job = Job.objects.get(id=job_id)
 
     applicants = []
 
-    devs = request.GET['list_of_applicants'].split(",")
-    for dev in devs:
-        try:
-            applicants.append(Developer.objects.get(auth_user__username=dev))
-        except:
-            pass
+    if list_of_applicants != 'NONE':
+        dev_ids = list_of_applicants.split(",")
+        for _id in dev_ids:
+            dev_id = int(_id)
+            try:
+                applicants.append(Developer.objects.get(id=dev_id))
+            except:
+                pass
+    else:
+        pass
 
     return render(request, 'marketplace/recruiter/jobs/detail.html',
                   {'job': job, 'applicants': applicants})
@@ -93,9 +97,9 @@ def apply_for_job(request, job_id):
     if request.method == 'POST':
         job = Job.objects.get(id=job_id)
 
-        developer = Developer.objects.get(auth_user__username=request.user)
+        job_application, was_created = JobApplication.objects.get_or_create(job=job)
 
-        developer.applied_jobs.get_or_create(job=job)
+        job_application.applied_by.add(Developer.objects.get(auth_user__username=request.user))
 
         return HttpResponseRedirect("/marketplace/dev/job_list/")
     else:
@@ -108,14 +112,16 @@ def manage_posted_jobs(request):
 
     job_details = []
 
+    all_applicants = None
+
     for job in jobs:
         try:
-            temp = JobApplication.objects.get(job=job).applied_by.all()
+            all_applicants = JobApplication.objects.get(job=job).applied_by.all()
         except:
-            temp = None
+            pass
 
-        if temp:
-            applied_by = [dev for dev in temp]
+        if all_applicants:
+            applied_by = [dev.id for dev in all_applicants]
         else:
             applied_by = []
 

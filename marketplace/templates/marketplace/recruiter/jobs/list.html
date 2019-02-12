@@ -83,7 +83,8 @@
         </div>
 
 
-        <a id="devs" href="{% url 'marketplace:manage_posted_jobs' %}"><span data-feather="rotate-cw"></span> Refresh list</a>
+        <a id="devs" href="{% url 'marketplace:manage_posted_jobs' %}"><span data-feather="rotate-cw"></span> Refresh
+            list</a>
         <table class="table">
             <thead class="thead-dark">
             <tr>
@@ -107,9 +108,19 @@
                     <td>{{ job_detail.0.dev_experience }}</td>
                     <td>{{ job_detail.0.engagement_type }}</td>
                     <td>{{ job_detail.0.tech_stack }}</td>
-                    <td>{{ job_detail.0.remuneration_in_dollars }}</td>
-                    <td>{{ job_detail.1|length}}</td>
-                    <td><a href="{% url 'marketplace:recruiter_job_detail' %}?job_id={{  job_detail.0.id }}&list_of_applicants={{  job_detail.1|join:"," }}">Manage Job</a></td>
+                    <td>{{ job_detail.0.remuneration }}</td>
+                    <td>{{ job_detail.1|length }}</td>
+                    <td>
+                        {% if job_detail.1 %}
+                            <a href="{% url 'marketplace:recruiter_job_detail' job_detail.0.id  job_detail.1|join:"," %}">
+                                Manage Job
+                            </a>
+                        {% else %}
+                            <a href="{% url 'marketplace:recruiter_job_detail' job_detail.0.id  'NONE' %}">
+                                Manage Job
+                            </a>
+                        {% endif %}
+                    </td>
                 </tr>
 
             {% endfor %}
