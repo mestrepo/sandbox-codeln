@@ -1,4 +1,4 @@
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, get_object_or_404
 
 from .models import Job, Recruiter, Developer, JobApplication, Person
@@ -54,25 +54,39 @@ def dev_job_detail(request, year, month, day, job):
                   {'job': job, 'job_applied_status': applied})
 
 
-def recruiter_job_detail(request, job_id, list_of_applicants):
+def recruiter_job_detail(request, job_id, list_of_applicants, list_selected_devs):
     """a view to display job_details of a single job."""
     job = Job.objects.get(id=job_id)
 
+    selected_candidates = []
     applicants = []
+
+    if list_selected_devs != 'NONE':
+        dev_ids = list_selected_devs.split(",")
+        for _id in dev_ids:
+            dev_id = int(_id)
+            try:
+                selected_candidates.append(Developer.objects.get(id=dev_id))
+            except:
+                pass
+    else:
+        pass
 
     if list_of_applicants != 'NONE':
         dev_ids = list_of_applicants.split(",")
         for _id in dev_ids:
             dev_id = int(_id)
             try:
-                applicants.append(Developer.objects.get(id=dev_id))
+                developer = Developer.objects.get(id=dev_id)
+                if developer not in selected_candidates:
+                    applicants.append(developer)
             except:
                 pass
     else:
         pass
 
     return render(request, 'marketplace/recruiter/jobs/detail.html',
-                  {'job': job, 'applicants': applicants})
+                  {'job': job, 'applicants': applicants, 'selected_candidates': selected_candidates})
 
 
 def post_job(request):
@@ -112,20 +126,41 @@ def manage_posted_jobs(request):
 
     job_details = []
 
+    all_selected_candidates = None
     all_applicants = None
 
     for job in jobs:
         try:
+            all_selected_candidates = JobApplication.objects.get(job=job).selected_devs.all()
             all_applicants = JobApplication.objects.get(job=job).applied_by.all()
         except:
             pass
+
+        if all_selected_candidates:
+            selected_candidates = [dev.id for dev in all_selected_candidates]
+        else:
+            selected_candidates = []
 
         if all_applicants:
             applied_by = [dev.id for dev in all_applicants]
         else:
             applied_by = []
 
-        job_details.append((job, applied_by))
+        job_details.append((job, applied_by, selected_candidates))
 
     return render(request, 'marketplace/recruiter/jobs/list.html',
                   {'job_details': job_details})
+
+
+def pick_candidate(request, job_id, dev_id):
+    job = Job.objects.get(id=job_id)
+
+    job_application, was_created = JobApplication.objects.get_or_create(job=job)
+
+    job_application.selected_devs.add(Developer.objects.get(id=dev_id))
+
+    return HttpResponseRedirect("/marketplace/recruiter/manage_posted_jobs/")
+
+
+def get_recommended_developers():
+    pass

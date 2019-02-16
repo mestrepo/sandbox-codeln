@@ -96,6 +96,7 @@
                 <th scope="col">Tech Stack</th>
                 <th scope="col">Remuneration In Dollars</th>
                 <th scope="col">Number of Candidates Applied</th>
+                <th scope="col">Number of Candidates Selected</th>
                 <th scope="col">Job Management/Details</th>
             </tr>
             </thead>
@@ -110,13 +111,22 @@
                     <td>{{ job_detail.0.tech_stack }}</td>
                     <td>{{ job_detail.0.remuneration }}</td>
                     <td>{{ job_detail.1|length }}</td>
+                    <td>{{ job_detail.2|length }}</td>
                     <td>
-                        {% if job_detail.1 %}
-                            <a href="{% url 'marketplace:recruiter_job_detail' job_detail.0.id  job_detail.1|join:"," %}">
+                        {% if job_detail.1 and job_detail.2 %}
+                            <a href="{% url 'marketplace:recruiter_job_detail' job_detail.0.id job_detail.1|join:"," job_detail.2|join:"," %}">
+                                Manage Job
+                            </a>
+                        {% elif job_detail.1 and not job_detail.2 %}
+                            <a href="{% url 'marketplace:recruiter_job_detail' job_detail.0.id job_detail.1|join:"," 'NONE' %}">
+                                Manage Job
+                            </a>
+                        {% elif job_detail.2 and not job_detail.1 %}
+                            <a href="{% url 'marketplace:recruiter_job_detail' job_detail.0.id 'NONE' job_detail.2|join:"," %}">
                                 Manage Job
                             </a>
                         {% else %}
-                            <a href="{% url 'marketplace:recruiter_job_detail' job_detail.0.id  'NONE' %}">
+                            <a href="{% url 'marketplace:recruiter_job_detail' job_detail.0.id 'NONE' 'NONE' %}">
                                 Manage Job
                             </a>
                         {% endif %}

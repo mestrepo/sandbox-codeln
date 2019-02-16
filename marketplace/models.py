@@ -123,7 +123,7 @@ class JobApplication(models.Model):
     job = models.ForeignKey(Job, related_name='job_applications', on_delete=models.CASCADE)
     applied_by = models.ManyToManyField(Developer, related_name='applied_jobs')
     selected_devs = models.ManyToManyField(Developer, related_name='jobs_picked_for', blank=True)
-    recommended_devs = models.ManyToManyField(Developer, related_name='recommended_jobs', blank=True)
+    # recommended_devs = models.ManyToManyField(Developer, related_name='recommended_jobs', blank=True)
 
     class Meta:
         # ordering = ('position_filled',)

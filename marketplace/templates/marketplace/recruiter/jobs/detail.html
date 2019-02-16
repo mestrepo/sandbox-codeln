@@ -83,46 +83,76 @@
         </div>
 
 
-        <h1 style="color: #0580c9">{{ job.title }}</h1>
+        <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 col mb-2" style="width: 100%;">
+                <h1 style="color: #0580c9">{{ job.title }}</h1>
 
-        <p class="date">
-            Job Posted {{ job.created }} by <span
-                style="color: #c69500">{{ job.posted_by }} ({{ job.posted_by.job_role }})</span> of <span
-                style="color: #c91452"><a href="{{ job.posted_by.company_url }}"
-                                          target="_blank">{{ job.posted_by.company }}</a></span>
-        </p>
+                <p class="date">
+                    Job Posted {{ job.created }} by <span
+                        style="color: #c69500">{{ job.posted_by }} ({{ job.posted_by.job_role }})</span> of <span
+                        style="color: #c91452"><a href="{{ job.posted_by.company_url }}"
+                                                  target="_blank">{{ job.posted_by.company }}</a></span>
+                </p>
 
-        <h3 style="color: #0580c9">Job Description</h3>
-        {{ job.description|linebreaks }}
+                <h3 style="color: #0580c9">Job Description</h3>
+                {{ job.description|linebreaks }}
 
 
-        <h6 style="text-decoration: underline; color: #0580c9;">Job Role</h6>
-        <h6 style="color: #c91452">
-            <td>{{ job.job_role }}</td>
-        </h6>
+                <h6 style="text-decoration: underline; color: #0580c9;">Job Role</h6>
+                <h6 style="color: #c91452">
+                    <td>{{ job.job_role }}</td>
+                </h6>
 
-        <h6 style="text-decoration: underline; color: #0580c9;">Developer Experience</h6>
-        <h6 style="color: #c91452">
-            <td>{{ job.dev_experience }}</td>
-        </h6>
+                <h6 style="text-decoration: underline; color: #0580c9;">Developer Experience</h6>
+                <h6 style="color: #c91452">
+                    <td>{{ job.dev_experience }}</td>
+                </h6>
 
-        <h6 style="text-decoration: underline; color: #0580c9;">Engagement Type</h6>
-        <h6 style="color: #c91452">
-            <td>{{ job.engagement_type }}</td>
-        </h6>
+                <h6 style="text-decoration: underline; color: #0580c9;">Engagement Type</h6>
+                <h6 style="color: #c91452">
+                    <td>{{ job.engagement_type }}</td>
+                </h6>
 
-        <h6 style="text-decoration: underline; color: #0580c9;">Tech Stack</h6>
-        <h6 style="color: #c91452">
-            <td>{{ job.tech_stack }}</td>
-        </h6>
+                <h6 style="text-decoration: underline; color: #0580c9;">Tech Stack</h6>
+                <h6 style="color: #c91452">
+                    <td>{{ job.tech_stack }}</td>
+                </h6>
 
-        <h6 style="text-decoration: underline; color: #0580c9;">Remuneration In Dollars</h6>
-        <h6 style="color: #c91452">
-            <td>{{ job.remuneration }}</td>
-        </h6>
+                <h6 style="text-decoration: underline; color: #0580c9;">Remuneration In Dollars</h6>
+                <h6 style="color: #c91452">
+                    <td>{{ job.remuneration }}</td>
+                </h6>
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-4 col mb-2" style="width: 100%;">
+                <div class="card">
+                    <h3 class="text-center" style="text-decoration: underline; color: #0580c9;">Your Candidates</h3>
+
+                    {% if selected_candidates %}
+                        {% for dev in selected_candidates %}
+                            <div class="card recruithomecard" style="width: 80%;margin: 10%; margin-top: 0%;">
+                                <div class="card-body">
+                                    <img height="40" width="auto" class="img-fluid" src="/static/frontend/images/devprofile.png"
+                                         style="width: 30%; text-align: center; display: block; margin: 0 auto" alt="Card image cap">
+
+                                    <h6 class="card-title text-center"
+                                        style="text-align: -webkit-center;">{{ dev.auth_user.first_name }} {{ dev.auth_user.last_name }}</h6>
+
+                                    <p class="text-center"><a href=".">Chat</a></p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-center" style="color: #c91452">You have not picked any candidate for this job
+                            yet.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
 
         <p></p>
-        <h3 style="color: #0580c9">Job Applicants</h3>
+        <h4 style="color: #0580c9">New Applicants</h4>
         <table class="table">
             <thead class="thead-dark">
             <tr>
@@ -135,6 +165,7 @@
                 <th scope="col">Github</th>
                 <th scope="col">Linkedin</th>
                 <th scope="col">Portfolio</th>
+                <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
@@ -149,6 +180,46 @@
                     <td><a href="{{ dev.github }}" target="_blank">github account</a></td>
                     <td><a href="{{ dev.linkedin }}" target="_blank">linkedin</a></td>
                     <td><a href="{{ dev.portfolio }}" target="_blank">portfolio</a></td>
+                    <td><a href="{% url 'marketplace:pick_candidate' job.id dev.id %}"><span style="color: #28a745">Pick Candidate</span></a>
+                    </td>
+                </tr>
+
+            {% endfor %}
+
+
+            </tbody>
+        </table>
+
+        <h4 style="color: #0580c9">Recommended Candidates</h4>
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">email</th>
+                <th scope="col">Country</th>
+                <th scope="col">language</th>
+                <th scope="col">Framework</th>
+                <th scope="col">Github</th>
+                <th scope="col">Linkedin</th>
+                <th scope="col">Portfolio</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for dev in recommended %}
+                <tr>
+                    <td> {{ forloop.counter }} </td>
+                    <td>{{ dev.auth_user.first_name }} {{ dev.auth_user.last_name }}</td>
+                    <td>{{ dev.auth_user.email }}</td>
+                    <td>{{ dev.country.name }}</td>
+                    <td>{{ dev.language }}</td>
+                    <td>{{ dev.framework }}</td>
+                    <td><a href="{{ dev.github }}" target="_blank">github account</a></td>
+                    <td><a href="{{ dev.linkedin }}" target="_blank">linkedin</a></td>
+                    <td><a href="{{ dev.portfolio }}" target="_blank">portfolio</a></td>
+                    <td><a href="{% url 'marketplace:pick_candidate' job.id dev.id %}"><span style="color: #28a745">Pick Candidate</span></a>
+                    </td>
                 </tr>
 
             {% endfor %}
