@@ -94,6 +94,7 @@ class Job(models.Model):
     engagement_type = models.CharField(max_length=30, choices=ENGAGEMENT_TYPE, default='Full-time')
     tech_stack = models.CharField(max_length=500)
     num_devs_wanted = models.IntegerField(default=1)
+    location = CountryField(null=True, max_length=30)
     # monthly remuneration for fulltime, contract etc. budget project for freelance
     remuneration = models.CharField(max_length=45, help_text='in dollars ($)')
     created = models.DateTimeField(auto_now_add=True)

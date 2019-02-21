@@ -85,8 +85,10 @@ def recruiter_job_detail(request, job_id, list_of_applicants, list_selected_devs
     else:
         pass
 
+    recommended = [dev for dev in get_recommended_developers(job) if dev not in selected_candidates]
+
     return render(request, 'marketplace/recruiter/jobs/detail.html',
-                  {'job': job, 'applicants': applicants, 'selected_candidates': selected_candidates})
+                  {'job': job, 'applicants': applicants, 'recommended': recommended, 'selected_candidates': selected_candidates})
 
 
 def post_job(request):
@@ -162,5 +164,29 @@ def pick_candidate(request, job_id, dev_id):
     return HttpResponseRedirect("/marketplace/recruiter/manage_posted_jobs/")
 
 
-def get_recommended_developers():
-    pass
+def get_recommended_developers(job):
+    developers = Developer.objects.all()
+
+    recommended_developers = set()
+
+    tech_stack = job.tech_stack.split(',')
+
+    for developer in developers:
+        if job.engagement_type == developer.availability:
+            recommended_developers.add(developer)
+        elif job.job_role == developer.language or job.job_role == developer.framework:
+            recommended_developers.add(developer)
+        elif developer.language in tech_stack or developer.framework in tech_stack:
+            recommended_developers.add(developer)
+        elif job.location == developer.country:
+            recommended_developers.add(developer)
+        elif (job.dev_experience == 'Entry' or job.dev_experience == 'Junior') and developer.years == '1-2':
+            recommended_developers.add(developer)
+        elif (job.dev_experience == 'Junior' or job.dev_experience == 'Mid-Level') and developer.years == '2-4':
+            recommended_developers.add(developer)
+        elif (job.dev_experience == 'Mid-Level' or job.dev_experience == 'Senior') and developer.years == '4-above':
+            recommended_developers.add(developer)
+        else:
+            pass
+
+    return recommended_developers
