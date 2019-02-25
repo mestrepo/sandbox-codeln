@@ -2,44 +2,38 @@ body {
     margin:0;
     padding:0;
     font-family:helvetica, sans-serif;
+    background: #d6d6d6;
 }
 
-a {
-    color:#00abff;
-    text-decoration:none;
-}
-
-h1 {
-    font-weight:normal;
-    border-bottom:1px solid #bbb;
-    padding:0 0 10px 0;
-}
-
-h2 {
-    font-weight:normal;
-    margin:30px 0 0;
+h1, h2, h3, h4, h5, h6 {
+    color: #007bff;
 }
 
 #content {
     float:left;
     width:60%;
     padding:0 0 0 30px;
+    position: relative;
+    top: 80px;
 }
 
 #sidebar {
     float:right;
     width:30%;
     padding:10px;
-    background:#efefef;
+    background: #ffffff;
     height:100%;
+    position: relative;
+    top: 80px;
+    right: 16px;
 }
 
-p.date {
-    color:#ccc;
-    font-family: georgia, serif;
-    font-size: 12px;
-    font-style: italic;
-}
+/*p.date {*/
+    /*color:#ccc;*/
+    /*font-family: georgia, serif;*/
+    /*font-size: 12px;*/
+    /*font-style: italic;*/
+/*}*/
 
 /* pagination */
 .pagination {
