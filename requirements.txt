@@ -17,6 +17,7 @@ django-allauth==0.36.0
 django-bootstrap-forms==0.1
 django-bootstrap4==0.0.7
 django-countries==5.3.2
+django-crispy-forms==1.7.0
 django-filter==2.0.0
 django-filters==0.2.1
 django-forms-bootstrap==3.1.0
@@ -25,6 +26,7 @@ django-invitations==1.9.2
 django-paypal==0.5.0
 django-phonenumber-field==2.1.0
 django-storages==1.7.1
+django-taggit==0.24.0
 docutils==0.14
 enum34==1.1.6
 Fabric3==1.14.post1
@@ -36,10 +38,13 @@ jsonpickle==1.0
 keyring==10.6.0
 keyrings.alt==3.0
 kombu==4.2.1
+Markdown==3.0.1
 oauthlib==2.1.0
 paramiko==2.4.2
 phonenumbers==8.10.0
 Pillow==5.2.0
+pkg-resources==0.0.0
+psycopg2==2.7.6.1
 psycopg2-binary==2.7.7
 pyasn1==0.4.4
 pycparser==2.19
@@ -61,4 +66,3 @@ six==1.11.0
 urllib3==1.23
 vine==1.1.4
 whitenoise==3.3.1
-django-crispy-forms==1.7.0
