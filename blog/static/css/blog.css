@@ -5,9 +5,9 @@ body {
     background: #d6d6d6;
 }
 
-h1, h2, h3, h4, h5, h6 {
-    color: #007bff;
-}
+/*h1, h2, h3, h4, h5, h6 {*/
+    /*color: #007bff;*/
+/*}*/
 
 #content {
     float:left;
@@ -30,7 +30,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 p.date {
-    color:white;
     font-family: georgia, serif;
     font-size: 16px;
     font-style: italic;

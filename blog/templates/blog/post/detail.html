@@ -1,9 +1,11 @@
 {% extends "blog/base2.html" %}
 
+{% load blog_tags %}
+
 {% block title %}{{ post.title }}{% endblock %}
 
 {% block content %}
-    <h3>{{ post.title }}</h3>
+    <h3 style="color: #007bff; font-weight: bold">{{ post.title }}</h3>
 
     <p class="date">
         Published {{ post.publish }} by {{ post.author }}
@@ -19,9 +21,9 @@
         {% endfor %}
     </p>
 
-    {{ post.body|safe|linebreaks }}
+    {{ post.body|safe|markdown }}
 
-    <h6>Similar posts</h6>
+    <h6 style="font-weight: bold">Similar posts</h6>
     {% for post in similar_posts %}
         <p>
             <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
@@ -31,7 +33,7 @@
     {% endfor %}
 
     {% with comments.count as total_comments %}
-        <h6>
+        <h6 style="font-weight: bold">
             {{ total_comments }} comment{{ total_comments|pluralize }}
         </h6>
     {% endwith %}
@@ -52,7 +54,7 @@
     {% if new_comment %}
         <h6>Your comment has been added.</h6>
     {% else %}
-        <h6>Add a new comment</h6>
+        <h6 style="font-weight: bold; margin-top: 20px">Add a new comment</h6>
         <form action="." method="post">
             {{ comment_form.as_p }}
             {% csrf_token %}

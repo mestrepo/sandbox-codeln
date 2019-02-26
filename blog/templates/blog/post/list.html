@@ -1,14 +1,16 @@
 {% extends "blog/base2.html" %}
 
+{% load blog_tags %}
+
 {% block title %}Blog{% endblock %}
 
 {% block content %}
     {% if tag %}
-        <h6 style="color: white; font-weight: bold">Posts tagged with "{{ tag.name }}"</h6>
+        <h6 style="font-weight: bold">Posts tagged with "{{ tag.name }}"</h6>
     {% endif %}
 
     {% for post in posts %}
-        <h3>
+        <h3 style="font-weight: bold">
             <a href="{{ post.get_absolute_url }}">
                 {{ post.title }}
             </a>
@@ -27,7 +29,7 @@
         <p class="date">
             Published {{ post.publish }} by {{ post.author }}
         </p>
-        {{ post.body|safe|truncatewords:30|linebreaks }}
+        {{ post.body|markdown|truncatewords_html:20 }}
     {% endfor %}
 
     {% include "blog/pagination.html" with page=posts %}
