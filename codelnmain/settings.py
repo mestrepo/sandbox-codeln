@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'frontend',
     'classroom',
     'marketplace',
+    'blog',
     'django.contrib.admindocs',
 
     'paypal.standard.ipn',
@@ -60,6 +61,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'taggit',
 
     # 'django_filters',
     'invitations',

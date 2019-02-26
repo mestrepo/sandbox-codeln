@@ -37,6 +37,7 @@ urlpatterns = [
     path('invitations/', include('invitations.urls', namespace='invitations')),
     path('testing/', include('testing.urls', namespace='testing')),
     path('marketplace/', include('marketplace.urls', namespace='marketplace')),
+    path('blog/', include('blog.urls', namespace='blog')),
 ]
 
 if settings.DEBUG:
